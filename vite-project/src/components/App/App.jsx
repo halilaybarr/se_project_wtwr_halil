@@ -1,15 +1,17 @@
-import { useState } from 'react'
-import './App.css'
-import Header from '../Header/Header'
+import { useState } from "react";
+import "./App.css";
+import Header from "../Header/Header";
 
 function App() {
-const [weather, setWeather] = useState()
+  const [weather, setWeather] = useState();
 
   return (
-    <>
-  <Header weather={setWeather} />
-    </>
-  )
+    <div className="page">
+      <div className="page__content">
+        <Header weather={setWeather} />
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
