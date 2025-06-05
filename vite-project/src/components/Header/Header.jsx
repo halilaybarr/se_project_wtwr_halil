@@ -3,6 +3,7 @@ import getWeatherData from "../../utils/weatherApi";
 import { useEffect } from "react";
 import { useState } from "react";
 import "./Header.css";
+import userImg from "../../assets/user-img.svg"
 
 const currentDate = new Date().toLocaleString("default", {
   month: "long",
@@ -50,13 +51,17 @@ export default function Header(props) {
 } */
 
 function Header() {
-  <header className="header">
-    <img src={headerLogo} alt="what to wear logo" className="header__logo" />
-    <p className="header__date-and-location">{currentDate}</p>
-    <button className="header__add-clothes-btn"></button>
-    <div className="header__user-container">
-      <p className="header__username">Terrence Tegegne</p>
-      <img src="#" alt="" className="header__avatar" />
-    </div>
-  </header>;
+  return (
+    <header className="header">
+      <img src={headerLogo} alt="what to wear logo" className="header__logo" />
+      <p className="header__date-and-location">{currentDate}</p>
+      <button className="header__add-clothes-btn">+ Add Clothes</button>
+      <div className="header__user-container">
+        <p className="header__username">Terrence Tegegne</p>
+        <img src={userImg} alt="user image" className="header__avatar" />
+      </div>
+    </header>
+  );
 }
+
+export default Header;
