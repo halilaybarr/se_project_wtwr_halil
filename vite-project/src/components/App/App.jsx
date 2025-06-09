@@ -1,20 +1,56 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { getWeather, filterWeather } from "../../utils/weatherApi";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import ItemModal from "../ItemModal/ItemModal";
+import { coordinates, apiKey } from "../../utils/constants";
 
 function App() {
-  const [weatherData, setWeatherData] = useState({ type: "cold" });
+  const [weatherData, setWeatherData] = useState({
+    type: "",
+    temp: { F: 999 },
+    city: "",
+  });
+  const [activeModal, setActivemodal] = useState("");
+  const [selectedCard, setSelectedCard] = useState({});
+
+  const handleCardClick = () => {
+    setActivemodal("preview");
+    setSelectedCard(card);
+  };
+
+  const handleAddClick = () => {
+    setActivemodal("add-garment");
+  };
+
+  const closeActiveModal = () => {
+    setActivemodal("");
+  };
+
+  useEffect(() => {
+    getWeather(coordinates, apiKey)
+      .then((data) => {
+        const filteredData = filterWeather(data);
+        setWeatherData(filteredData);
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <div className="page">
       <div className="page__content">
-        <Header />
-        <Main weatherData={weatherData} />
+        <Header handleAddClick={handleAddClick} weatherData={weatherData} />
+        <Main weatherData={weatherData} handleCardClick={handleCardClick} />
       </div>
-      <ModalWithForm title="New garment" buttonText="Add garment">
+      <ModalWithForm
+        title="New garment"
+        buttonText="Add garment"
+        activeModal={activeModal}
+        closeActiveModal={closeActiveModal}
+      >
         <label htmlFor="name" className="modal__label">
           Name{" "}
           <input
@@ -55,6 +91,11 @@ function App() {
           </label>
         </fieldset>
       </ModalWithForm>
+      <ItemModal
+        activeModal={activeModal}
+        card={selectedCard}
+        closeActiveModal={closeActiveModal}
+      />
     </div>
   );
 }

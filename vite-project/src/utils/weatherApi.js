@@ -1,33 +1,31 @@
-import apiKey from "./constants.js";
+import { apiKey } from "./constants.js";
 
-export default async function getWeatherData(city) {
-  try {
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`
-    );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await response.json();
-    const weather = {
-      city: data.name,
-      temperature: data.main.temp,
-      description: data.weather[0].description,
-      icon: `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
-    };
-
-    let category;
-    if (weather.temperature >= 86) {
-      category = "hot";
-    } else if (weather.temperature >= 66) {
-      category = "warm";
+export const getWeather = ({ latitude, longitude }, apiKey) => {
+  return fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${apiKey}`
+  ).then((res) => {
+    if (res.ok) {
+      return res.json();
     } else {
-      category = "cold";
+      return Promise.reject(`Error: ${res.status}`);
     }
+  });
+};
 
-    return { ...weather, category };
-  } catch (error) {
-    console.error("There has been a problem with your fetch operation:", error);
-    throw error;
+export const filterWeather = (data) => {
+  const result = {};
+  result.city = data.name;
+  result.temp = { F: data.main.temp };
+  result.type = getWeatherType(result.temp.F);
+  return result;
+};
+
+const getWeatherType = (temperature) => {
+  if (temperature >= 86) {
+    return "hot";
+  } else if (temperature >= 66) {
+    return "warm";
+  } else {
+    return "cold";
   }
-}
+};

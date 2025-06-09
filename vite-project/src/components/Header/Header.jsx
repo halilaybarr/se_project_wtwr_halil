@@ -1,61 +1,29 @@
 import headerLogo from "../../assets/WTWR-logo.svg";
-import getWeatherData from "../../utils/weatherApi";
+
 import { useEffect } from "react";
 import { useState } from "react";
 import "./Header.css";
-import userImg from "../../assets/user-img.svg"
+import userImg from "../../assets/user-img.svg";
 
-const currentDate = new Date().toLocaleString("default", {
-  month: "long",
-  day: "numeric",
-});
-/* function AddClothes() {
-  const handleClick = (event) => {
-    console.log("Button clicked!", event);
-  };
+function Header({ handleAddClick, weatherData }) {
+  const currentDate = new Date().toLocaleString("default", {
+    month: "long",
+    day: "numeric",
+  });
 
-  return <button onClick={handleClick}>+ Add Clothes</button>;
-}
-
-export default function Header(props) {
-  const [weather, setWeather] = useState(null);
-
-  useEffect(() => {
-    getWeatherData("Seattle")
-      .then((data) => {
-        setWeather(data);
-        props.weather(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching weather data:", error);
-      });
-  }, []);
-
-  return (
-    <header>
-      <img src={headerLogo} alt="App logo" />
-      {currentDate}
-      <AddClothes />
-      <h2>Terrence Tegegne</h2>
-      {weather ? (
-        <div>
-          <p>
-            Weather: {weather.temperature}°C, {weather.description}
-          </p>
-        </div>
-      ) : (
-        <p>Loading weather...</p>
-      )}
-    </header>
-  );
-} */
-
-function Header() {
   return (
     <header className="header">
       <img src={headerLogo} alt="what to wear logo" className="header__logo" />
-      <p className="header__date-and-location">{currentDate}</p>
-      <button className="header__add-clothes-btn">+ Add Clothes</button>
+      <p className="header__date-and-location">
+        {currentDate}, {weatherData.city}
+      </p>
+      <button
+        type="button"
+        onClick={handleAddClick}
+        className="header__add-clothes-btn"
+      >
+        + Add Clothes
+      </button>
       <div className="header__user-container">
         <p className="header__username">Terrence Tegegne</p>
         <img src={userImg} alt="user image" className="header__avatar" />
