@@ -1,5 +1,6 @@
 import "./ModalWithForm.css";
 
+
 function ModalWithForm({
   children,
   buttonText,
@@ -16,7 +17,7 @@ function ModalWithForm({
           type="button"
           className="modal__close"
         >
-          CLOSE
+        X
         </button>
         <form className="modal__form">
           {children}

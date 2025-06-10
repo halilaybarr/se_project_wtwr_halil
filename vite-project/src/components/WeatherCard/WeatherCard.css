@@ -7,12 +7,16 @@
 }
 
 .weather-card__temp {
-  font-size: 36px;
-  line-height: 40px;
   margin: 0;
   position: absolute;
   top: 20px;
   left: 16px;
+  font-family: Cabinet Grotesk;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  letter-spacing: 0%;
+  vertical-align: middle;
 }
 
 .weather-card__image {
@@ -22,5 +26,4 @@
 }
 
 .cards__list {
-    
 }
