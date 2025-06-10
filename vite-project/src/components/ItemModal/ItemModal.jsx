@@ -9,7 +9,7 @@ function ItemModal({ activeModal, closeActiveModal, card }) {
           type="button"
           className="modal__close"
         >
-          CLOSE
+          X
         </button>
         <img src={card.link} alt="" className="modal__image" />
         <div className="modal__footer">

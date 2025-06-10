@@ -7,6 +7,7 @@ import Main from "../Main/Main";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import ItemModal from "../ItemModal/ItemModal";
 import { coordinates, apiKey } from "../../utils/constants";
+import Footer from "../Footer/Footer";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -17,7 +18,7 @@ function App() {
   const [activeModal, setActivemodal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
 
-  const handleCardClick = () => {
+  const handleCardClick = (card) => {
     setActivemodal("preview");
     setSelectedCard(card);
   };
@@ -96,6 +97,7 @@ function App() {
         card={selectedCard}
         closeActiveModal={closeActiveModal}
       />
+      <Footer />
     </div>
   );
 }
