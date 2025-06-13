@@ -21,7 +21,6 @@
   font-family: Cabinet Grotesk, sans-serif;
   font-weight: 700;
   font-size: 20px;
-  padding: 28px;
 }
 
 .modal__close {
@@ -48,7 +47,7 @@
   padding-bottom: 12px;
 }
 
-.modal__content {
+.modal-form__content {
   background-color: #fff;
   position: relative;
   padding: 32px 32px 24px 32px;
@@ -73,7 +72,6 @@
   line-height: 20px;
   letter-spacing: 0%;
   color: rgba(0, 0, 0, 1);
-  padding-left: 28px;
 }
 
 .modal__input {
@@ -98,7 +96,6 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 16px;
-  padding-left: 28px;
 }
 
 .modal__label_type_radio {
@@ -119,7 +116,6 @@
 .modal__submit {
   width: 124px;
   height: 36px;
-  gap: 8px;
   border-radius: 4px;
   padding: 8px 16px;
   border: none;
@@ -127,10 +123,5 @@
   color: #fff;
   font-size: 16px;
   font-weight: 700;
-  margin: 0 0 36px 28px;
-}
-
-.modal__submit:enabled {
-  background: #222;
-  cursor: pointer;
+  margin: 0;
 }
