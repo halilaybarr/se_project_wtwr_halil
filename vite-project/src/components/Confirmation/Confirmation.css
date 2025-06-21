@@ -1,0 +1,15 @@
+.confirmation {
+  background-color: rgba(255, 255, 255, 1);
+  font-family: Cabinet Grotesk;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  text-align: center;
+  width: 670px;
+  height: 280px;
+}
+
+.confirmation__btn_type_cancel {
+  color: rgba(255, 77, 0, 1);
+}

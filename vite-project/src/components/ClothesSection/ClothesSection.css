@@ -7,3 +7,26 @@
   margin: 0;
   list-style: none;
 }
+
+.clothes-section__header {
+  display: flex;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.clothes-section__title {
+  font-family: Cabinet Grotesk;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  color: rgba(0, 0, 0, 1);
+}
+
+.clothes-section__add-btn {
+  font-family: Cabinet Grotesk;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  color: rgba(0, 0, 0, 0.6);
+  border: none;
+}

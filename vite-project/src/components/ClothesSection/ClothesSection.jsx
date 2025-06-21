@@ -16,9 +16,11 @@ function ClothesSection({ onCardClick, handleAddClick }) {
 
   return (
     <div className="clothes-section">
-      <div>
-        <p>Your Items</p>
-        <button onClick={handleAddClick}>Add New</button>
+      <div className="clothes-section__header">
+        <p className="clothes-section__title">Your Items</p>
+        <button className="clothes-section__add-btn" onClick={handleAddClick}>
+          + Add New
+        </button>
       </div>
       <ul className="clothes-section__items">
         {clothingItems.map((item) => (

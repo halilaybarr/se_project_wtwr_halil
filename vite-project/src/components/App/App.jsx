@@ -13,6 +13,7 @@ import CurrentTemperatureUnitContext from "../../context/CurrentTemperatureUnit"
 import AddItemModal from "../AddItemModal/AddItemModal";
 import Profile from "../Profile/Profile";
 import { getItems, deleteItems, addItem } from "../../utils/api";
+import Confirmation from "../Confirmation/Confirmation.jsx";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -105,7 +106,6 @@ function App() {
                 <Profile
                   onCardClick={handleCardClick}
                   handleAddClick={handleAddClick}
-                  
                 />
               }
             ></Route>
@@ -120,6 +120,14 @@ function App() {
           isOpen={activeModal === "preview"}
           card={selectedCard}
           closeActiveModal={closeActiveModal}
+          onDeleteItem={handleDeleteItem}
+          setActiveModal={setActivemodal}
+        />
+        <Confirmation
+          isOpen={activeModal === "confirmation"}
+          onDeleteItem={handleDeleteItem}
+          closeActiveModal={closeActiveModal}
+          card={selectedCard}
         />
         <Footer />
       </div>

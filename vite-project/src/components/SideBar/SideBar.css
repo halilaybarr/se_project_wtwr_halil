@@ -1,0 +1,21 @@
+.sidebar {
+  display: flex;
+  margin: 0;
+  flex-direction: row;
+}
+
+.sidebar__username {
+  font-family: Cabinet Grotesk;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  padding-left: 12px;
+  display: block;
+  white-space: nowrap;
+}
+
+.sidebar__avatar {
+  padding-left: 40px;
+  width: 56px;
+  height: 56px;
+}
