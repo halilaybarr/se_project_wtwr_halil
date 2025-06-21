@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import { getWeather, filterWeather } from "../../utils/weatherApi";
 import "./App.css";
@@ -10,6 +11,8 @@ import Footer from "../Footer/Footer";
 import { defaultClothingItems } from "../../utils/constants";
 import CurrentTemperatureUnitContext from "../../context/CurrentTemperatureUnit";
 import AddItemModal from "../AddItemModal/AddItemModal";
+import Profile from "../Profile/Profile";
+import { getItems, deleteItems, addItem } from "../../utils/api";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -39,14 +42,6 @@ function App() {
     setActivemodal("");
   };
 
-  const handleAddItemSubmit = (name, imageUrl, weather) => {
-    setClothingItems((prevItems) => [
-      { name, link: imageUrl, weather, _id: Date.now() },
-      ...prevItems,
-    ]);
-    closeActiveModal();
-  };
-
   useEffect(() => {
     getWeather(coordinates, apiKey)
       .then((data) => {
@@ -56,6 +51,33 @@ function App() {
       .catch(console.error);
   }, []);
 
+  useEffect(() => {
+    getItems()
+      .then((data) => {
+        setClothingItems(data);
+      })
+      .catch(console.error);
+  }, []);
+
+  const handleDeleteItem = (id) => {
+    deleteItems(id)
+      .then(() => {
+        setClothingItems((prevItems) =>
+          prevItems.filter((item) => item._id !== id)
+        );
+      })
+      .catch(console.error);
+  };
+
+  const handleAddItem = (name, link, weather) => {
+    addItem(name, link, weather)
+      .then((newItem) => {
+        setClothingItems((prevItems) => [newItem, ...prevItems]);
+      })
+      .catch(console.error);
+    closeActiveModal();
+  };
+
   return (
     <CurrentTemperatureUnitContext.Provider
       value={{ currentTemperatureUnit, handleToggleSwitchChange }}
@@ -63,16 +85,36 @@ function App() {
       <div className="page">
         <div className="page__content">
           <Header handleAddClick={handleAddClick} weatherData={weatherData} />
-          <Main
-            weatherData={weatherData}
-            handleCardClick={handleCardClick}
-            clothingItems={clothingItems}
-          />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Main
+                  weatherData={weatherData}
+                  handleCardClick={handleCardClick}
+                  clothingItems={clothingItems}
+                  onDeleteItem={handleDeleteItem}
+                  onAddItem={handleAddItem}
+                />
+              }
+            />
+
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  onCardClick={handleCardClick}
+                  handleAddClick={handleAddClick}
+                  
+                />
+              }
+            ></Route>
+          </Routes>
         </div>
         <AddItemModal
           isOpen={activeModal === "add-garment"}
           closeActiveModal={closeActiveModal}
-          onAddItemSubmit={handleAddItemSubmit}
+          handleAddItem={handleAddItem}
         />
         <ItemModal
           isOpen={activeModal === "preview"}
