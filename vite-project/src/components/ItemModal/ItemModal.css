@@ -55,3 +55,16 @@
   z-index: 2;
   transition: background 0.2s;
 }
+
+.modal__delete-btn {
+  font-family: Cabinet Grotesk;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  border: none;
+  color: rgba(255, 77, 0, 1);
+  position: absolute;
+  right: 32px;
+  top: 518px;
+}

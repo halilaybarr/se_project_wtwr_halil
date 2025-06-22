@@ -12,24 +12,29 @@ function Confirmation({ onDeleteItem, closeActiveModal, card, isOpen }) {
         >
           <img src={closeBtn} alt="Close" />
         </button>
-        <p>Are you sure you want to delete this item?</p>
-        <button
-          type="button"
-          className="confirmation__btn confirmation__btn_type_confirm"
-          onClick={() => {
-            onDeleteItem(card._id);
-            closeActiveModal();
-          }}
-        >
-          Yes, delete item
-        </button>
-        <button
-          type="button"
-          className="confirmation__btn confirmation__btn_type_cancel"
-          onClick={closeActiveModal}
-        >
-          Cancel
-        </button>
+        <p className="confirmation__text">
+          Are you sure you want to delete this item?
+        </p>
+        <p>This action is irreversible.</p>
+        <div className="confirmation__btns">
+          <button
+            type="button"
+            className="confirmation__btn confirmation__btn_type_confirm"
+            onClick={() => {
+              onDeleteItem(card._id);
+              closeActiveModal();
+            }}
+          >
+            Yes, delete item
+          </button>
+          <button
+            type="button"
+            className="confirmation__btn confirmation__btn_type_cancel"
+            onClick={closeActiveModal}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

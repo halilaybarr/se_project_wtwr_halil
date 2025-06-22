@@ -4,12 +4,43 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
-  letter-spacing: 0%;
   text-align: center;
   width: 670px;
   height: 280px;
+  position: relative;
+  border-radius: 20px;
+}
+
+.confirmation__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 1;
+  width: 20;
+  height: 20;
+}
+
+.confirmation__text {
+  margin-top: 60px;
+
+}
+
+.confirmation__btn {
+  border: none;
 }
 
 .confirmation__btn_type_cancel {
   color: rgba(255, 77, 0, 1);
+}
+
+.confirmation__btns {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
