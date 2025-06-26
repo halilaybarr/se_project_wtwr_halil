@@ -1,6 +1,5 @@
 import "./ItemModal.css";
 import closeBtn from "../../assets/close-btn.svg";
-import Confirmation from "../Confirmation/Confirmation.jsx";
 
 function ItemModal({
   activeModal,

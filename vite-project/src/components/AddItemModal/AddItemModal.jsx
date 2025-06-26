@@ -46,16 +46,15 @@ export default function AddItemModal({
           value={name}
         />
       </label>
-      <label htmlFor="imageUrl" className="modal__label">
-        Image{" "}
+      <label htmlFor="link" className="modal__label">
+        Link{" "}
         <input
           type="url"
           className="modal__input"
-          id="imageUrl"
-          placeholder="Image URL"
+          id="link"
+          placeholder="Link"
           required
           minLength="1"
-          maxLength="30"
           onChange={handleImageUrlChange}
           value={imageUrl}
         />

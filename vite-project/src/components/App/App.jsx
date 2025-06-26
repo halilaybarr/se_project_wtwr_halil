@@ -60,23 +60,27 @@ function App() {
       .catch(console.error);
   }, []);
 
-  const handleDeleteItem = (id) => {
-    deleteItems(id)
-      .then(() => {
-        setClothingItems((prevItems) =>
-          prevItems.filter((item) => item._id !== id)
-        );
-      })
-      .catch(console.error);
+  const handleDeleteItem = async (id) => {
+    try {
+      await deleteItems(id);
+      setClothingItems((prevItems) =>
+        prevItems.filter((item) => item._id !== id)
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleAddItem = (name, link, weather) => {
-    addItem(name, link, weather)
-      .then((newItem) => {
-        setClothingItems((prevItems) => [newItem, ...prevItems]);
-      })
-      .catch(console.error);
-    closeActiveModal();
+  const handleAddItem = async (name, imageUrl, weather) => {
+    try {
+      const newItem = await addItem(name, imageUrl, weather);
+      console.log("API returned new item:", newItem);
+      setClothingItems((prevItems) => [newItem, ...prevItems]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      closeActiveModal();
+    }
   };
 
   return (
@@ -104,8 +108,10 @@ function App() {
               path="/profile"
               element={
                 <Profile
+                  clothingItems={clothingItems}
                   onCardClick={handleCardClick}
                   handleAddClick={handleAddClick}
+                  onDeleteItem={handleDeleteItem}
                 />
               }
             ></Route>

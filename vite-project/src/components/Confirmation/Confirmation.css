@@ -28,11 +28,11 @@
 
 .confirmation__text {
   margin-top: 60px;
-
 }
 
 .confirmation__btn {
   border: none;
+  background-color: transparent;
 }
 
 .confirmation__btn_type_cancel {
