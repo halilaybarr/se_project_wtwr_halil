@@ -1,19 +1,30 @@
+// React and library imports
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import { getWeather, filterWeather } from "../../utils/weatherApi";
+// Styles
 import "./App.css";
+
+// Context
+import CurrentTemperatureUnitContext from "../../context/CurrentTemperatureUnit";
+
+// Components
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import ItemModal from "../ItemModal/ItemModal";
-import { coordinates, apiKey } from "../../utils/constants";
-import Footer from "../Footer/Footer";
-import { defaultClothingItems } from "../../utils/constants";
-import CurrentTemperatureUnitContext from "../../context/CurrentTemperatureUnit";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import Profile from "../Profile/Profile";
-import { getItems, deleteItems, addItem } from "../../utils/api";
+import Footer from "../Footer/Footer";
 import Confirmation from "../Confirmation/Confirmation.jsx";
+
+// Utils and constants
+import { getWeather, filterWeather } from "../../utils/weatherApi";
+import {
+  coordinates,
+  apiKey,
+  defaultClothingItems,
+} from "../../utils/constants";
+import { getItems, deleteItems, addItem } from "../../utils/api";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -21,7 +32,7 @@ function App() {
     temp: { F: 999, C: 999 },
     city: "",
   });
-  const [activeModal, setActivemodal] = useState("");
+  const [activeModal, setActiveModal] = useState("");
   const [clothingItems, setClothingItems] = useState(defaultClothingItems);
   const [selectedCard, setSelectedCard] = useState("");
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
@@ -31,16 +42,16 @@ function App() {
   };
 
   const handleCardClick = (card) => {
-    setActivemodal("preview");
+    setActiveModal("preview");
     setSelectedCard(card);
   };
 
   const handleAddClick = () => {
-    setActivemodal("add-garment");
+    setActiveModal("add-garment");
   };
 
   const closeActiveModal = () => {
-    setActivemodal("");
+    setActiveModal("");
   };
 
   useEffect(() => {
@@ -60,27 +71,30 @@ function App() {
       .catch(console.error);
   }, []);
 
-  const handleDeleteItem = async (id) => {
-    try {
-      await deleteItems(id);
-      setClothingItems((prevItems) =>
-        prevItems.filter((item) => item._id !== id)
-      );
-    } catch (error) {
-      console.error(error);
-    }
+  const handleDeleteItem = (id) => {
+    deleteItems(id)
+      .then(() => {
+        setClothingItems((prevItems) =>
+          prevItems.filter((item) => item._id !== id)
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  const handleAddItem = async (name, imageUrl, weather) => {
-    try {
-      const newItem = await addItem(name, imageUrl, weather);
-      console.log("API returned new item:", newItem);
-      setClothingItems((prevItems) => [newItem, ...prevItems]);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      closeActiveModal();
-    }
+  const handleAddItem = (name, imageUrl, weather) => {
+    addItem(name, imageUrl, weather)
+      .then((newItem) => {
+        console.log("API returned new item:", newItem);
+        setClothingItems((prevItems) => [newItem, ...prevItems]);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        closeActiveModal();
+      });
   };
 
   return (
@@ -127,7 +141,7 @@ function App() {
           card={selectedCard}
           closeActiveModal={closeActiveModal}
           onDeleteItem={handleDeleteItem}
-          setActiveModal={setActivemodal}
+          setActiveModal={setActiveModal}
         />
         <Confirmation
           isOpen={activeModal === "confirmation"}

@@ -24,9 +24,7 @@ function addItem(name, imageUrl, weather) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ name, imageUrl, weather }),
-  }).then((response) => {
-    return response.ok ? response.json() : Promise.reject("Failed to add item");
-  });
+  }).then(checkResponse);
 }
 
 export { getItems, deleteItems, addItem };

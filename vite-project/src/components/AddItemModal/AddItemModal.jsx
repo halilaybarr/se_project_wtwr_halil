@@ -1,6 +1,6 @@
 import "./AddItemModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AddItemModal({
   isOpen,
@@ -18,10 +18,11 @@ export default function AddItemModal({
   const handleSubmit = (e) => {
     e.preventDefault();
     handleAddItem(name, imageUrl, weatherType);
-
-    setName("");
-    setImageUrl("");
-    setWeatherType("");
+    useEffect(() => {
+      setName("");
+      setImageUrl("");
+      setWeatherType("");
+    }, [isOpen]);
   };
 
   return (
@@ -37,7 +38,7 @@ export default function AddItemModal({
         <input
           type="text"
           className="modal__input"
-          id="text"
+          id="name" /* <-- Match this to htmlFor */
           required
           minLength="1"
           maxLength="30"
