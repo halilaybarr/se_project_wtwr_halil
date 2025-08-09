@@ -1,30 +1,54 @@
-const baseUrl = "http://localhost:3001";
+const BASE_URL = "http://localhost:3001";
 
-function getItems() {
-  return fetch(`${baseUrl}/items`).then(checkResponse);
+export function getItems() {
+  return fetch(`${BASE_URL}/items`).then((res) => res.json());
 }
 
-function checkResponse(response) {
-  if (response.ok) {
-    return response.json();
-  }
-  return Promise.reject(`Error: ${response.status}`);
-}
-
-function deleteItems(id) {
-  return fetch(`${baseUrl}/items/${id}`, {
-    method: "DELETE",
-  }).then(checkResponse);
-}
-
-function addItem(name, imageUrl, weather) {
-  return fetch(`${baseUrl}/items`, {
+export function addItem(data, token) {
+  return fetch(`${BASE_URL}/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ name, imageUrl, weather }),
-  }).then(checkResponse);
+    body: JSON.stringify(data),
+  }).then((res) => res.json());
 }
 
-export { getItems, deleteItems, addItem };
+export function deleteItems(id, token) {
+  return fetch(`${BASE_URL}/items/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => res.json());
+}
+
+export function updateUser({ name, avatar }, token) {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ name, avatar }),
+  }).then((res) => (res.ok ? res.json() : Promise.reject("Update failed")));
+}
+
+export function addCardLike(id, token) {
+  return fetch(`${BASE_URL}/items/${id}/likes`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => res.ok ? res.json() : Promise.reject("Like failed"));
+}
+
+export function removeCardLike(id, token) {
+  return fetch(`${BASE_URL}/items/${id}/likes`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => res.ok ? res.json() : Promise.reject("Dislike failed"));
+}

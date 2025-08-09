@@ -1,8 +1,14 @@
 import "./ItemCard.css";
 
-function ItemCard({ item, onCardClick }) {
+function ItemCard({ item, onCardLike, onCardClick, ...props }) {
   const handleCardClick = () => {
     onCardClick(item);
+  };
+
+  const isLiked = item.likes.includes(currentUser?._id);
+
+  const handleLike = () => {
+    onCardLike({ id: item._id, isLiked });
   };
 
   return (
@@ -14,6 +20,9 @@ function ItemCard({ item, onCardClick }) {
         src={item.imageUrl}
         alt={item.name}
       />
+      <button onClick={handleLike}>
+        {isLiked ? "Unlike" : "Like"}
+      </button>
     </li>
   );
 }
