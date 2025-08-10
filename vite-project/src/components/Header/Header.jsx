@@ -9,7 +9,7 @@ import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { useContext } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";
 
-function Header({ handleAddClick, weatherData }) {
+function Header({ handleAddClick, weatherData, setActiveModal }) {
   const currentUser = useContext(CurrentUserContext);
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -51,12 +51,11 @@ function Header({ handleAddClick, weatherData }) {
                   {currentUser.name?.charAt(0).toUpperCase()}
                 </div>
               )}
-              <span>{currentUser.name}</span>
             </div>
           ) : (
-            <div>
-              <button>Sign Up</button>
-              <button>Log In</button>
+            <div className="header__auth-buttons">
+              <button onClick={() => setActiveModal("register")}>Sign Up</button>
+              <button onClick={() => setActiveModal("login")}>Log In</button>
             </div>
           )}
         </div>

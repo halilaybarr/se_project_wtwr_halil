@@ -10,15 +10,14 @@ function ItemModal({
   isOpen,
   onDeleteItem,
   setActiveModal,
-  selectedCard,
   ...props
 }) {
   const currentUser = useContext(CurrentUserContext);
-  const isOwn = selectedCard.owner === currentUser?._id;
+  const isOwn = card?.owner === currentUser?._id; // Use card.owner instead of selectedCard.owner
 
   return (
     <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
-      <div className="modal__content modal__content_type_image">
+      <div className="modal__content modal__content_type_image"> {/* Ensure this class exists in CSS */}
         <button
           onClick={closeActiveModal}
           type="button"
@@ -38,7 +37,7 @@ function ItemModal({
           <p className="modal__weather">Weather: {card?.weather}</p>
           {isOwn && (
             <button
-              className="modal__delete-button"
+              className="modal__delete-btn" // Updated to match the CSS selector
               onClick={props.onDelete}
             >
               Delete item

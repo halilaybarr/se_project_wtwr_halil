@@ -34,8 +34,8 @@
   cursor: pointer;
   font-weight: 700;
   line-height: 1;
-  width: 20;
-  height: 20;
+  width: 20px;
+  height: 20px;
 }
 
 .modal__legend {

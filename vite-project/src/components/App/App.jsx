@@ -138,13 +138,15 @@ function App() {
       const res = await login({ email, password });
       if (res.token) {
         localStorage.setItem("jwt", res.token);
+
         setIsLoggedIn(true);
-        setActiveModal("");
-      } else {
-        throw new Error("No token received");
+
+        // Fetch and set the current user
+        const user = await checkToken(res.token);
+        setCurrentUser(user);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Login failed:", err);
     }
   };
 

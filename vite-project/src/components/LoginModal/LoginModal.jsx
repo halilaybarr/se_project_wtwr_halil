@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./LoginModal.css";
 
 function LoginModal({ isOpen, onClose, onLogin }) {
   const [email, setEmail] = useState("");
@@ -17,28 +18,24 @@ function LoginModal({ isOpen, onClose, onLogin }) {
           type="email"
           placeholder="Email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
         {error && <div className="error">{error}</div>}
         <button type="submit">Login</button>
-        <button type="button" onClick={onClose}>Cancel</button>
+        <button type="button" onClick={onClose}>
+          Cancel
+        </button>
       </form>
     </div>
   ) : null;
 }
 
 export default LoginModal;
-
-<LoginModal
-  isOpen={activeModal === "login"}
-  onClose={() => setActiveModal("")}
-  onLogin={handleLogin}
-/>
