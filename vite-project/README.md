@@ -1,39 +1,64 @@
-# What to Wear (WTWR) - React + Vite
+# WTWR (What to Wear?)
 
-## Project Description
+## About the Project
 
-**What to Wear (WTWR)** is a responsive web application that helps users decide what to wear based on the current weather. Users can view the weather, browse a collection of clothing items, add new garments, and delete items from their wardrobe. The app features modals for item previews, adding new items, and confirming deletions.
+WTWR (What to Wear?) is a web application that helps users manage their wardrobe while considering the weather. Users can:
 
-## Features
+- Register and log in to their accounts.
+- Add, like, and delete clothing items.
+- Edit their profile information.
+- View weather information based on their location.
 
-- View current weather and city
-- Toggle temperature units (°F/°C)
-- Browse, add, and delete clothing items
-- Responsive design for desktop and mobile
-- Modal dialogs for item preview, add, and delete confirmation
-
-## Technologies & Techniques Used
-
-- [React](https://react.dev/) (with hooks and context)
-- [Vite](https://vitejs.dev/) for fast development and HMR
-- [React Router](https://reactrouter.com/) for routing
-- CSS Flexbox for layout
-- Fetch API for backend communication
-- ESLint and Prettier for code quality and formatting
-
-
-
-## Project Structure
-
-- `/src/components` - React components
-- `/src/utils` - API and utility functions
-- `/src/context` - React context for global state
-- `/public` - Static assets
+The application features protected routes and API endpoints to ensure only authorized users can modify data.
 
 ---
 
-## Credits
+## Features
 
-Created by Halil for Sprint Triple Ten Project.
+- **User Authentication**: Secure login and registration using JWT.
+- **Wardrobe Management**: Add, like, and delete clothing items.
+- **Weather Integration**: Displays weather data to suggest appropriate clothing.
+- **Profile Customization**: Edit user profile details.
+- **Responsive Design**: Optimized for various screen sizes.
 
+---
 
+## Technologies Used
+
+### Frontend
+
+- **Framework**: React (with Vite for fast development)
+- **Styling**: CSS
+- **State Management**: React Context, `useState`, `useEffect`
+- **Routing**: React Router
+
+### Backend
+
+- **Framework**: Express.js
+- **Database**: MongoDB (with Mongoose for schema modeling)
+- **Authentication**: JWT (JSON Web Tokens)
+- **API Communication**: Fetch API
+
+### Development Tools
+
+- **Linting/Formatting**: ESLint, Prettier
+- **Testing/Debugging**: Postman, MongoDB Compass
+- **Utilities**: Nodemon for development
+
+---
+
+## Links
+
+- [Figma Design](https://www.figma.com/file/DTojSwldenF9UPKQZd6RRb/Sprint-10%3A-WTWR)
+- [Backend Repository](https://github.com/halilaybarr/se_project_express)
+
+---
+
+## Backend Setup Instructions
+
+To set up and run the backend locally:
+
+1. **Clone the backend repository**:
+   ```bash
+   git clone https://github.com/halilaybarr/se_project_express.git
+   ```
