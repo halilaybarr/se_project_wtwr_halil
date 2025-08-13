@@ -1,6 +1,6 @@
 // React and library imports
 import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 // Styles
 import "./App.css";
@@ -19,6 +19,8 @@ import Footer from "../Footer/Footer";
 import Confirmation from "../Confirmation/Confirmation.jsx";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import RegisterModal from "../RegisterModal/RegisterModal";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
+import ClothesSection from "../ClothesSection/ClothesSection";
 
 // Utils and constants
 import { getWeather, filterWeather } from "../../utils/weatherApi";
@@ -28,10 +30,12 @@ import {
   defaultClothingItems,
 } from "../../utils/constants";
 import { getItems, deleteItems, addItem, updateUser } from "../../utils/api";
-import { register, login, checkToken } from "../../utils/auth"; // adjust path as needed
+import { register, login, checkToken } from "../../utils/auth";
 import { addCardLike, removeCardLike } from "../../utils/api";
+import LoginModal from "../LoginModal/LoginModal.jsx";
 
 function App() {
+  const navigate = useNavigate();
   const [weatherData, setWeatherData] = useState({
     type: "",
     temp: { F: 999, C: 999 },
@@ -123,11 +127,12 @@ function App() {
   const handleRegister = async ({ name, avatar, email, password }) => {
     try {
       await register({ name, avatar, email, password });
-
       const data = await login({ email, password });
       localStorage.setItem("jwt", data.token);
       setIsLoggedIn(true);
       setActiveModal("");
+      const userData = await checkToken(data.token);
+      setCurrentUser(userData);
     } catch (err) {
       console.error(err);
     }
@@ -138,15 +143,16 @@ function App() {
       const res = await login({ email, password });
       if (res.token) {
         localStorage.setItem("jwt", res.token);
-
         setIsLoggedIn(true);
-
-        // Fetch and set the current user
-        const user = await checkToken(res.token);
-        setCurrentUser(user);
+        setActiveModal("");
+        const userData = await checkToken(res.token);
+        setCurrentUser(userData);
+        navigate("/profile");
+      } else {
+        throw new Error("No token received");
       }
     } catch (err) {
-      console.error("Login failed:", err);
+      throw err;
     }
   };
 
@@ -173,7 +179,7 @@ function App() {
     localStorage.removeItem("jwt");
     setIsLoggedIn(false);
     setCurrentUser(null);
-    setActiveModal(""); 
+    setActiveModal("");
   };
 
   return (
@@ -183,37 +189,49 @@ function App() {
       >
         <div className="page">
           <div className="page__content">
-            <Header handleAddClick={handleAddClick} weatherData={weatherData} />
+            <Header
+              handleAddClick={handleAddClick}
+              weatherData={weatherData}
+              setActiveModal={setActiveModal}
+              isLoggedIn={isLoggedIn}
+              currentUser={currentUser}
+            />
             <Routes>
               <Route
                 path="/"
                 element={
-                  <Main
-                    weatherData={weatherData}
-                    handleCardClick={handleCardClick}
-                    clothingItems={clothingItems}
-                    onDeleteItem={handleDeleteItem}
-                    onAddItem={handleAddItem}
-                    onCardLike={handleCardLike}
-                  />
+                  <>
+                    <Main
+                      weatherData={weatherData}
+                      handleCardClick={handleCardClick}
+                      clothingItems={clothingItems}
+                      onCardLike={handleCardLike}
+                    />
+                    <ClothesSection
+                      clothingItems={clothingItems}
+                      onCardClick={handleCardClick}
+                      onCardLike={handleCardLike}
+                      handleAddClick={handleAddClick}
+                    />
+                  </>
                 }
               />
-
               <Route
                 path="/profile"
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute isLoggedIn={isLoggedIn}>
                     <Profile
-                      clothingItems={clothingItems}
                       onCardClick={handleCardClick}
                       handleAddClick={handleAddClick}
+                      clothingItems={clothingItems}
                       onDeleteItem={handleDeleteItem}
                       onUpdateUser={handleUpdateUser}
                       onSignOut={handleSignOut}
+                      setActiveModal={setActiveModal}
                     />
                   </ProtectedRoute>
                 }
-              ></Route>
+              />
             </Routes>
           </div>
           <AddItemModal
@@ -236,8 +254,19 @@ function App() {
           />
           <RegisterModal
             isOpen={activeModal === "register"}
-            onClose={() => setActiveModal("")}
+            onClose={closeActiveModal}
             onRegister={handleRegister}
+          />
+          <LoginModal
+            isOpen={activeModal === "login"}
+            onClose={closeActiveModal}
+            onLogin={handleLogin}
+          />
+          <EditProfileModal
+            isOpen={activeModal === "edit-profile"}
+            onClose={closeActiveModal}
+            onUpdate={handleUpdateUser}
+            currentUser={currentUser}
           />
           <Footer />
         </div>

@@ -9,10 +9,14 @@ function ItemCard({ item, onCardLike, onCardClick, ...props }) {
     onCardClick(item);
   };
 
-  const isLiked = item.likes.includes(currentUser?._id);
+  const isLiked = Array.isArray(item.likes) && currentUser
+    ? item.likes.includes(currentUser._id)
+    : false;
 
   const handleLike = () => {
-    onCardLike({ id: item._id, isLiked });
+    if (typeof onCardLike === "function") {
+      onCardLike({ id: item._id, isLiked });
+    }
   };
 
   return (

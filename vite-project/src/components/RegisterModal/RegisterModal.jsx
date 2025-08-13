@@ -6,43 +6,58 @@ function RegisterModal({ isOpen, onClose, onRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onRegister({ email, password, name }).catch(setError);
+    try {
+      await onRegister({ email, password, name, avatar });
+      onClose();
+    } catch (err) {
+      setError(err.message || String(err));
+    }
   };
 
-  return isOpen ? (
-    <div className="modal">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          required
-        />
-        {error && <div className="error">{error}</div>}
-        <button type="submit">Register</button>
-        <button type="button" onClick={onClose}>Cancel</button>
-      </form>
-    </div>
-  ) : null;
+  return (
+    <ModalWithForm
+      isOpen={isOpen}
+      title="Sign Up"
+      buttonText="Register"
+      closeActiveModal={onClose}
+      onSubmit={handleSubmit}
+    >
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
+      <input
+        type="url"
+        placeholder="Avatar URL"
+        value={avatar}
+        onChange={(e) => setAvatar(e.target.value)}
+        required
+      />
+      {error && <div className="error">{error}</div>}
+    </ModalWithForm>
+  );
 }
 
 export default RegisterModal;

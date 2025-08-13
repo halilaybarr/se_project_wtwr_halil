@@ -1,7 +1,14 @@
 const BASE_URL = "http://localhost:3001";
 
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Error ${res.status}`);
+}
+
 export function getItems() {
-  return fetch(`${BASE_URL}/items`).then((res) => res.json());
+  return fetch(`${BASE_URL}/items`).then(checkResponse);
 }
 
 export function addItem(data, token) {
@@ -12,7 +19,7 @@ export function addItem(data, token) {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
-  }).then((res) => res.json());
+  }).then(checkResponse);
 }
 
 export function deleteItems(id, token) {
@@ -21,7 +28,7 @@ export function deleteItems(id, token) {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  }).then((res) => res.json());
+  }).then(checkResponse);
 }
 
 export function updateUser({ name, avatar }, token) {
@@ -32,7 +39,7 @@ export function updateUser({ name, avatar }, token) {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ name, avatar }),
-  }).then((res) => (res.ok ? res.json() : Promise.reject("Update failed")));
+  }).then(checkResponse);
 }
 
 export function addCardLike(id, token) {
@@ -41,7 +48,7 @@ export function addCardLike(id, token) {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  }).then((res) => res.ok ? res.json() : Promise.reject("Like failed"));
+  }).then(checkResponse);
 }
 
 export function removeCardLike(id, token) {
@@ -50,5 +57,5 @@ export function removeCardLike(id, token) {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  }).then((res) => res.ok ? res.json() : Promise.reject("Dislike failed"));
+  }).then(checkResponse);
 }

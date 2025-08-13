@@ -1,6 +1,5 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";
-import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import SideBar from "../SideBar/SideBar";
 import "./Profile.css";
 import ClothesSection from "../ClothesSection/ClothesSection";
@@ -12,9 +11,9 @@ function Profile({
   onDeleteItem,
   onUpdateUser,
   onSignOut,
+  setActiveModal,
 }) {
   const currentUser = useContext(CurrentUserContext);
-  const [isEditOpen, setIsEditOpen] = useState(false);
 
   return (
     <div className="profile">
@@ -30,14 +29,10 @@ function Profile({
         />
       </section>
       <div>
-        {}
-        <button onClick={() => setIsEditOpen(true)}>Edit profile</button>
-        <EditProfileModal
-          isOpen={isEditOpen}
-          onClose={() => setIsEditOpen(false)}
-          onUpdate={onUpdateUser}
-          currentUser={currentUser}
-        />
+        <button onClick={() => setActiveModal("edit-profile")}>
+          Edit profile
+        </button>
+        {/* Remove EditProfileModal from here! */}
         <button onClick={onSignOut}>Sign out</button>
       </div>
     </div>

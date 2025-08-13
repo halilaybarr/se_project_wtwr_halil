@@ -9,7 +9,7 @@ import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { useContext } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";
 
-function Header({ handleAddClick, weatherData, setActiveModal }) {
+function Header({ handleAddClick, weatherData, setActiveModal, isLoggedIn }) {
   const currentUser = useContext(CurrentUserContext);
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -32,34 +32,50 @@ function Header({ handleAddClick, weatherData, setActiveModal }) {
         </p>
       </div>
 
-      <button
-        type="button"
-        onClick={handleAddClick}
-        className="header__add-clothes-btn"
-      >
-        + Add Clothes
-      </button>
+      {isLoggedIn && (
+        <button
+          type="button"
+          onClick={handleAddClick}
+          className="header__add-clothes-btn"
+        >
+          + Add Clothes
+        </button>
+      )}
       <ToggleSwitch />
-      <Link to="/profile" className="header__link">
-        <div className="header__user-container">
-          {currentUser ? (
+      <div className="header__user-container">
+        {isLoggedIn && currentUser && (
+          <Link to="/profile" className="header__link">
             <div className="header__user-info">
               {currentUser.avatar ? (
-                <img src={currentUser.avatar} alt={currentUser.name} className="header__avatar" />
+                <img
+                  src={currentUser.avatar}
+                  alt={currentUser.name}
+                  className="header__avatar"
+                />
               ) : (
                 <div className="header__avatar-placeholder">
                   {currentUser.name?.charAt(0).toUpperCase()}
                 </div>
               )}
+              <span>{currentUser.name}</span>
             </div>
-          ) : (
-            <div className="header__auth-buttons">
-              <button onClick={() => setActiveModal("register")}>Sign Up</button>
-              <button onClick={() => setActiveModal("login")}>Log In</button>
-            </div>
-          )}
-        </div>
-      </Link>
+          </Link>
+        )}
+        {!currentUser && (
+          <div className="header__auth-buttons">
+            <button
+              onClick={() => {
+                console.log("Sign Up clicked!");
+                setActiveModal("register");
+              }}
+            >
+              Sign Up
+            </button>
+
+            <button onClick={() => setActiveModal("login")}>Log In</button>
+          </div>
+        )}
+      </div>
     </header>
   );
 }

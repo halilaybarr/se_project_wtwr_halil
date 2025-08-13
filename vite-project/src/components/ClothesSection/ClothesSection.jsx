@@ -26,7 +26,7 @@ function ClothesSection({ clothingItems, ...props }) {
             key={item._id}
             item={item}
             onCardClick={() => props.onCardClick(item)}
-            onDeleteItem={props.onDeleteItem}
+            onCardLike={props.onCardLike} // <-- Pass here!
           />
         ))}
       </ul>
