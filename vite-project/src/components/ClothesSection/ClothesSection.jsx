@@ -6,7 +6,13 @@ import "./ClothesSection.css";
 function ClothesSection({ clothingItems, ...props }) {
   const currentUser = useContext(CurrentUserContext);
   const userItems = currentUser
-    ? clothingItems.filter((item) => item.owner._id === currentUser._id)
+    ? clothingItems.filter(
+        (item) =>
+          item.owner &&
+          ((typeof item.owner === "string" && item.owner === currentUser._id) ||
+            (typeof item.owner === "object" &&
+              item.owner._id === currentUser._id))
+      )
     : [];
 
   return (
@@ -26,7 +32,7 @@ function ClothesSection({ clothingItems, ...props }) {
             key={item._id}
             item={item}
             onCardClick={() => props.onCardClick(item)}
-            onCardLike={props.onCardLike} // <-- Pass directly!
+            onCardLike={props.onCardLike}
           />
         ))}
       </ul>

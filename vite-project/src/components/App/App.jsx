@@ -155,13 +155,23 @@ function App() {
   };
 
   const handleCardLike = ({ id, isLiked }) => {
+    console.log("handleCardLike called", id, isLiked);
     const token = localStorage.getItem("jwt");
     const likeAction = !isLiked ? addCardLike : removeCardLike;
     likeAction(id, token)
       .then((updatedCard) => {
+        console.log("Updated card:", updatedCard); // Add this
         setClothingItems((cards) =>
           cards.map((item) =>
-            item._id === id ? { ...item, likes: updatedCard.likes } : item
+            item._id === id
+              ? {
+                  ...updatedCard,
+                  owner:
+                    typeof updatedCard.owner === "string"
+                      ? { _id: updatedCard.owner }
+                      : updatedCard.owner,
+                }
+              : item
           )
         );
       })
@@ -173,6 +183,13 @@ function App() {
     setIsLoggedIn(false);
     setCurrentUser(null);
     setActiveModal("");
+  };
+
+  const handleLike = () => {
+    console.log("Like button clicked", item._id, isLiked);
+    if (typeof onCardLike === "function") {
+      onCardLike({ id: item._id, isLiked });
+    }
   };
 
   return (

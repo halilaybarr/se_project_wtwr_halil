@@ -17,6 +17,17 @@ function Profile({
 
   return (
     <div className="profile">
+      <div className="profile__customization">
+        <button
+          onClick={() => setActiveModal("edit-profile")}
+          className="profile__button"
+        >
+          Change profile data
+        </button>
+        <button className="profile__button" onClick={onSignOut}>
+          Log out
+        </button>
+      </div>
       <section className="profile__sidebar">
         <SideBar />
       </section>
@@ -28,18 +39,6 @@ function Profile({
           onDeleteItem={onDeleteItem}
         />
       </section>
-      <div>
-        <button
-          onClick={() => setActiveModal("edit-profile")}
-          className="profile__button"
-        >
-          Edit profile
-        </button>
-        {}
-        <button className="profile__button" onClick={onSignOut}>
-          Sign out
-        </button>
-      </div>
     </div>
   );
 }

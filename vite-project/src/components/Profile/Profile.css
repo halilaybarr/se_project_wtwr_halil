@@ -8,9 +8,16 @@
   font-weight: 700;
   font-style: Bold;
   font-size: 20px;
-  leading-trim: NONE;
   line-height: 100%;
   letter-spacing: 0%;
   border: none;
   background-color: transparent;
+}
+
+.profile__customization {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-self: flex-start;
+  margin-left: 0;
 }
