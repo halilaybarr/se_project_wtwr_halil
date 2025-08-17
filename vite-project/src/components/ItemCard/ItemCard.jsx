@@ -1,6 +1,8 @@
 import "./ItemCard.css";
 import { useContext } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";
+import likeButtonIcon from "../../assets/likebutton.svg";
+import likeButtonLikedIcon from "../../assets/likebutton-liked.svg";
 
 function ItemCard({ item, onCardLike, onCardClick, ...props }) {
   const currentUser = useContext(CurrentUserContext);
@@ -9,9 +11,10 @@ function ItemCard({ item, onCardLike, onCardClick, ...props }) {
     onCardClick(item);
   };
 
-  const isLiked = Array.isArray(item.likes) && currentUser
-    ? item.likes.includes(currentUser._id)
-    : false;
+  const isLiked =
+    Array.isArray(item.likes) && currentUser
+      ? item.likes.includes(currentUser._id)
+      : false;
 
   const handleLike = () => {
     if (typeof onCardLike === "function") {
@@ -28,8 +31,11 @@ function ItemCard({ item, onCardLike, onCardClick, ...props }) {
         src={item.imageUrl}
         alt={item.name}
       />
-      <button onClick={handleLike}>
-        {isLiked ? "Unlike" : "Like"}
+      <button className="card__like-btn" onClick={handleLike}>
+        <img
+          src={isLiked ? likeButtonLikedIcon : likeButtonIcon}
+          alt="like button"
+        />
       </button>
     </li>
   );

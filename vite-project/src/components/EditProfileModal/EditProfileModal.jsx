@@ -22,12 +22,14 @@ function EditProfileModal({ isOpen, onClose, onUpdate, currentUser }) {
   return (
     <ModalWithForm
       isOpen={isOpen}
-      title="Edit Profile"
-      buttonText="Save"
+      title="Change profile data"
+      buttonText="Save changes"
       closeActiveModal={onClose}
       onSubmit={handleSubmit}
+      className="edit-profile_label"
     >
       <input
+        className="modal__input"
         type="text"
         placeholder="Name"
         value={name}
@@ -35,6 +37,7 @@ function EditProfileModal({ isOpen, onClose, onUpdate, currentUser }) {
         required
       />
       <input
+        className="modal__input"  
         type="url"
         placeholder="Avatar URL"
         value={avatar}

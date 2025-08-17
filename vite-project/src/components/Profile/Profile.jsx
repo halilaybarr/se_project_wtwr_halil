@@ -29,11 +29,16 @@ function Profile({
         />
       </section>
       <div>
-        <button onClick={() => setActiveModal("edit-profile")}>
+        <button
+          onClick={() => setActiveModal("edit-profile")}
+          className="profile__button"
+        >
           Edit profile
         </button>
-        {/* Remove EditProfileModal from here! */}
-        <button onClick={onSignOut}>Sign out</button>
+        {}
+        <button className="profile__button" onClick={onSignOut}>
+          Sign out
+        </button>
       </div>
     </div>
   );

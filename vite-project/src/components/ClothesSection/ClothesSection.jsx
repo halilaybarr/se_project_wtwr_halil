@@ -5,9 +5,9 @@ import "./ClothesSection.css";
 
 function ClothesSection({ clothingItems, ...props }) {
   const currentUser = useContext(CurrentUserContext);
-  const userItems = clothingItems.filter(
-    (item) => item.owner === currentUser?._id
-  );
+  const userItems = currentUser
+    ? clothingItems.filter((item) => item.owner._id === currentUser._id)
+    : [];
 
   return (
     <div className="clothes-section">
@@ -26,7 +26,7 @@ function ClothesSection({ clothingItems, ...props }) {
             key={item._id}
             item={item}
             onCardClick={() => props.onCardClick(item)}
-            onCardLike={props.onCardLike} // <-- Pass here!
+            onCardLike={props.onCardLike} // <-- Pass directly!
           />
         ))}
       </ul>

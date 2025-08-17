@@ -46,6 +46,7 @@ function Header({ handleAddClick, weatherData, setActiveModal, isLoggedIn }) {
         {isLoggedIn && currentUser && (
           <Link to="/profile" className="header__link">
             <div className="header__user-info">
+              <span className="header__user-name">{currentUser.name}</span>
               {currentUser.avatar ? (
                 <img
                   src={currentUser.avatar}
@@ -57,7 +58,6 @@ function Header({ handleAddClick, weatherData, setActiveModal, isLoggedIn }) {
                   {currentUser.name?.charAt(0).toUpperCase()}
                 </div>
               )}
-              <span>{currentUser.name}</span>
             </div>
           </Link>
         )}
@@ -65,7 +65,6 @@ function Header({ handleAddClick, weatherData, setActiveModal, isLoggedIn }) {
           <div className="header__auth-buttons">
             <button
               onClick={() => {
-                console.log("Sign Up clicked!");
                 setActiveModal("register");
               }}
             >

@@ -48,3 +48,32 @@
   text-decoration: none;
   color: #000;
 }
+
+.header__user-container {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.header__user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header__avatar {
+  width: 40px;
+  height: 40px;
+  left: 1320px;
+  border-width: 1px;
+}
+
+.header__user-name {
+  font-family: Cabinet Grotesk;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 20px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+}

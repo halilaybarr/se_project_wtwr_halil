@@ -1,15 +1,8 @@
-// React and library imports
 import { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-
-// Styles
 import "./App.css";
-
-// Context
 import CurrentTemperatureUnitContext from "../../context/CurrentTemperatureUnit";
 import CurrentUserContext from "../../context/CurrentUserContext";
-
-// Components
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import ItemModal from "../ItemModal/ItemModal";
@@ -21,8 +14,6 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import ClothesSection from "../ClothesSection/ClothesSection";
-
-// Utils and constants
 import { getWeather, filterWeather } from "../../utils/weatherApi";
 import {
   coordinates,
@@ -169,7 +160,9 @@ function App() {
     likeAction(id, token)
       .then((updatedCard) => {
         setClothingItems((cards) =>
-          cards.map((item) => (item._id === id ? updatedCard : item))
+          cards.map((item) =>
+            item._id === id ? { ...item, likes: updatedCard.likes } : item
+          )
         );
       })
       .catch((err) => console.log(err));
