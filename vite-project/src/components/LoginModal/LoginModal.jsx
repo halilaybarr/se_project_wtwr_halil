@@ -18,7 +18,6 @@ function LoginModal({ isOpen, onClose, onLogin, openSignUp }) {
     <ModalWithForm
       isOpen={isOpen}
       title="Log In"
-      buttonText="Login"
       closeActiveModal={onClose}
       onSubmit={handleSubmit}
     >
@@ -39,6 +38,7 @@ function LoginModal({ isOpen, onClose, onLogin, openSignUp }) {
         required
       />
       {error && <div className="error">{error}</div>}
+
       <div className="modal__button-row">
         <button
           type="submit"
@@ -49,14 +49,12 @@ function LoginModal({ isOpen, onClose, onLogin, openSignUp }) {
         >
           Login
         </button>
-      </div>
-      <div className="modal__button-row">
         <button
           type="button"
-          className="modal__switch-button"
+          className="modal__submit modal__submit-signup"
           onClick={openSignUp}
         >
-          Sign Up
+          or Sign Up
         </button>
       </div>
     </ModalWithForm>
