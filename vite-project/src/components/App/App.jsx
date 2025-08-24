@@ -185,13 +185,6 @@ function App() {
     setActiveModal("");
   };
 
-  const handleLike = () => {
-    console.log("Like button clicked", item._id, isLiked);
-    if (typeof onCardLike === "function") {
-      onCardLike({ id: item._id, isLiked });
-    }
-  };
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CurrentTemperatureUnitContext.Provider
@@ -238,6 +231,7 @@ function App() {
                       onUpdateUser={handleUpdateUser}
                       onSignOut={handleSignOut}
                       setActiveModal={setActiveModal}
+                      onCardLike={handleCardLike}
                     />
                   </ProtectedRoute>
                 }

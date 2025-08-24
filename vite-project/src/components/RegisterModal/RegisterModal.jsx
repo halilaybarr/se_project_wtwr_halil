@@ -1,19 +1,28 @@
 import React, { useState } from "react";
 import "./RegisterModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { useForm } from "../../hooks/useForm";
 
 function RegisterModal({ isOpen, onClose, onRegister }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const { values, handleChange, resetForm } = useForm({
+    email: "",
+    password: "",
+    name: "",
+    avatar: "",
+  });
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await onRegister({ email, password, name, avatar });
+      await onRegister({
+        email: values.email,
+        password: values.password,
+        name: values.name,
+        avatar: values.avatar,
+      });
       onClose();
+      resetForm();
     } catch (err) {
       setError(err.message || String(err));
     }
@@ -28,31 +37,39 @@ function RegisterModal({ isOpen, onClose, onRegister }) {
       onSubmit={handleSubmit}
     >
       <input
+        className="modal__input"
         type="email"
+        name="email"
         placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={values.email}
+        onChange={handleChange}
         required
       />
       <input
+        className="modal__input"
         type="password"
+        name="password"
         placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={values.password}
+        onChange={handleChange}
         required
       />
       <input
+        className="modal__input"
         type="text"
+        name="name"
         placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={values.name}
+        onChange={handleChange}
         required
       />
       <input
+        className="modal__input"
         type="url"
+        name="avatar"
         placeholder="Avatar URL"
-        value={avatar}
-        onChange={(e) => setAvatar(e.target.value)}
+        value={values.avatar}
+        onChange={handleChange}
         required
       />
       {error && <div className="error">{error}</div>}

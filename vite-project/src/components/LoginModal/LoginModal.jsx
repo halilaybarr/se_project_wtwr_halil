@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import "./LoginModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { useForm } from "../../hooks/useForm";
 
 function LoginModal({ isOpen, onClose, onLogin, openSignUp }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { values, handleChange, resetForm } = useForm({
+    email: "",
+    password: "",
+  });
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin({ email, password })
-      .then(() => onClose())
+    onLogin({ email: values.email, password: values.password })
+      .then(() => {
+        onClose();
+        resetForm();
+      })
       .catch((err) => setError(err.message || String(err)));
   };
 
@@ -24,17 +30,19 @@ function LoginModal({ isOpen, onClose, onLogin, openSignUp }) {
       <input
         className="modal__input"
         type="email"
+        name="email"
         placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={values.email}
+        onChange={handleChange}
         required
       />
       <input
         className="modal__input"
         type="password"
+        name="password"
         placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={values.password}
+        onChange={handleChange}
         required
       />
       {error && <div className="error">{error}</div>}
@@ -43,9 +51,9 @@ function LoginModal({ isOpen, onClose, onLogin, openSignUp }) {
         <button
           type="submit"
           className={`modal__submit${
-            email && password ? " modal__submit_active" : ""
+            values.email && values.password ? " modal__submit_active" : ""
           }`}
-          disabled={!(email && password)}
+          disabled={!(values.email && values.password)}
         >
           Login
         </button>

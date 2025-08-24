@@ -12,6 +12,7 @@ function Profile({
   onUpdateUser,
   onSignOut,
   setActiveModal,
+  onCardLike,
 }) {
   const currentUser = useContext(CurrentUserContext);
 
@@ -37,6 +38,7 @@ function Profile({
           handleAddClick={handleAddClick}
           clothingItems={clothingItems}
           onDeleteItem={onDeleteItem}
+          onCardLike={onCardLike}
         />
       </section>
     </div>
