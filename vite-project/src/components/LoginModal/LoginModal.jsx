@@ -3,7 +3,7 @@ import "./LoginModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
 
-function LoginModal({ isOpen, onClose, onLogin, openSignUp }) {
+function LoginModal({ isOpen, onClose, onLogin, openSignUp, isLoading }) {
   const { values, handleChange, resetForm } = useForm({
     email: "",
     password: "",
@@ -14,7 +14,6 @@ function LoginModal({ isOpen, onClose, onLogin, openSignUp }) {
     e.preventDefault();
     onLogin({ email: values.email, password: values.password })
       .then(() => {
-        onClose();
         resetForm();
       })
       .catch((err) => setError(err.message || String(err)));
@@ -27,24 +26,32 @@ function LoginModal({ isOpen, onClose, onLogin, openSignUp }) {
       closeActiveModal={onClose}
       onSubmit={handleSubmit}
     >
-      <input
-        className="modal__input"
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={values.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        className="modal__input"
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={values.password}
-        onChange={handleChange}
-        required
-      />
+      <label htmlFor="email" className="modal__label">
+        Email
+        <input
+          className="modal__input"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Email"
+          value={values.email}
+          onChange={handleChange}
+          required
+        />
+      </label>
+      <label htmlFor="password" className="modal__label">
+        Password
+        <input
+          className="modal__input"
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          value={values.password}
+          onChange={handleChange}
+          required
+        />
+      </label>
       {error && <div className="error">{error}</div>}
 
       <div className="modal__button-row">
@@ -53,9 +60,9 @@ function LoginModal({ isOpen, onClose, onLogin, openSignUp }) {
           className={`modal__submit${
             values.email && values.password ? " modal__submit_active" : ""
           }`}
-          disabled={!(values.email && values.password)}
+          disabled={!(values.email && values.password) || isLoading}
         >
-          Login
+          {isLoading ? "Logging in..." : "Login"}
         </button>
         <button
           type="button"

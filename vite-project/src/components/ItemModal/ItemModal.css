@@ -1,4 +1,4 @@
-.modal__content {
+.modal__content_type_image {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -37,25 +37,6 @@
   margin: 0;
 }
 
-.modal__close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 32px;
-  height: 32px;
-  background: none;
-  border: none;
-  border-radius: 8px;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  transition: background 0.2s;
-}
-
 .modal__delete-btn {
   font-family: Cabinet Grotesk;
   font-weight: 700;
@@ -64,8 +45,7 @@
   letter-spacing: 0%;
   border: none;
   color: rgba(255, 77, 0, 1);
-  position: absolute;
-  right: 32px;
-  top: 518px;
   background: transparent;
+  cursor: pointer;
+  margin-top: 10px;
 }

@@ -38,6 +38,7 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
@@ -56,19 +57,20 @@ function App() {
     setActiveModal("");
   };
 
+  // Universal function for handling submit requests
+  function handleSubmit(request) {
+    setIsLoading(true);
+    request()
+      .then(closeActiveModal)
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }
+
   useEffect(() => {
     getWeather(coordinates, apiKey)
       .then((data) => {
         const filteredData = filterWeather(data);
         setWeatherData(filteredData);
-      })
-      .catch(console.error);
-  }, []);
-
-  useEffect(() => {
-    getItems()
-      .then((data) => {
-        setClothingItems(data);
       })
       .catch(console.error);
   }, []);
@@ -80,39 +82,53 @@ function App() {
         .then((userData) => {
           setIsLoggedIn(true);
           setCurrentUser(userData);
+          // Fetch items with token after user is authenticated
+          return getItems(token);
         })
-        .catch(() => {
+        .then((data) => {
+          setClothingItems(data);
+        })
+        .catch((err) => {
+          console.error(err);
           setIsLoggedIn(false);
           setCurrentUser(null);
+          // Still fetch items without token if auth fails
+          getItems()
+            .then((data) => {
+              setClothingItems(data);
+            })
+            .catch(console.error);
         });
+    } else {
+      // Fetch items without token if no user is logged in
+      getItems()
+        .then((data) => {
+          setClothingItems(data);
+        })
+        .catch(console.error);
     }
   }, []);
 
   const handleDeleteItem = (id) => {
     const token = localStorage.getItem("jwt");
-    deleteItems(id, token)
-      .then(() => {
+    const makeRequest = () => {
+      return deleteItems(id, token).then(() => {
         setClothingItems((prevItems) =>
           prevItems.filter((item) => item._id !== id)
         );
-      })
-      .catch((error) => {
-        console.error(error);
       });
+    };
+    handleSubmit(makeRequest);
   };
 
   const handleAddItem = (name, imageUrl, weather) => {
     const token = localStorage.getItem("jwt");
-    addItem({ name, imageUrl, weather }, token)
-      .then((newItem) => {
+    const makeRequest = () => {
+      return addItem({ name, imageUrl, weather }, token).then((newItem) => {
         setClothingItems((prevItems) => [newItem, ...prevItems]);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        closeActiveModal();
       });
+    };
+    handleSubmit(makeRequest);
   };
 
   const handleRegister = async ({ name, avatar, email, password }) => {
@@ -121,9 +137,12 @@ function App() {
       const data = await login({ email, password });
       localStorage.setItem("jwt", data.token);
       setIsLoggedIn(true);
-      setActiveModal("");
+      closeActiveModal();
       const userData = await checkToken(data.token);
       setCurrentUser(userData);
+      // Refresh items with user context
+      const items = await getItems(data.token);
+      setClothingItems(items);
     } catch (err) {
       console.error(err);
     }
@@ -135,9 +154,12 @@ function App() {
       if (res.token) {
         localStorage.setItem("jwt", res.token);
         setIsLoggedIn(true);
-        setActiveModal("");
+        closeActiveModal();
         const userData = await checkToken(res.token);
         setCurrentUser(userData);
+        // Refresh items with user context
+        const items = await getItems(res.token);
+        setClothingItems(items);
         navigate("/profile");
       } else {
         throw new Error("No token received");
@@ -149,9 +171,10 @@ function App() {
 
   const handleUpdateUser = ({ name, avatar }) => {
     const token = localStorage.getItem("jwt");
-    updateUser({ name, avatar }, token)
-      .then((updatedUser) => setCurrentUser(updatedUser))
-      .catch(console.error);
+    const makeRequest = () => {
+      return updateUser({ name, avatar }, token).then(setCurrentUser);
+    };
+    handleSubmit(makeRequest);
   };
 
   const handleCardLike = ({ id, isLiked }) => {
@@ -175,14 +198,20 @@ function App() {
           )
         );
       })
-      .catch((err) => console.log(err));
+      .catch(console.error);
   };
 
   const handleSignOut = () => {
     localStorage.removeItem("jwt");
     setIsLoggedIn(false);
     setCurrentUser(null);
-    setActiveModal("");
+    closeActiveModal();
+    // Refresh items without authentication after signing out
+    getItems()
+      .then((data) => {
+        setClothingItems(data);
+      })
+      .catch(console.error);
   };
 
   return (
@@ -197,7 +226,6 @@ function App() {
               weatherData={weatherData}
               setActiveModal={setActiveModal}
               isLoggedIn={isLoggedIn}
-              currentUser={currentUser}
             />
             <Routes>
               <Route
@@ -239,11 +267,14 @@ function App() {
             </Routes>
           </div>
           <AddItemModal
+            name="add-garment"
             isOpen={activeModal === "add-garment"}
             closeActiveModal={closeActiveModal}
             handleAddItem={handleAddItem}
+            isLoading={isLoading}
           />
           <ItemModal
+            name="preview"
             isOpen={activeModal === "preview"}
             card={selectedCard}
             closeActiveModal={closeActiveModal}
@@ -251,27 +282,34 @@ function App() {
             setActiveModal={setActiveModal}
           />
           <Confirmation
+            name="confirmation"
             isOpen={activeModal === "confirmation"}
             onDeleteItem={handleDeleteItem}
             closeActiveModal={closeActiveModal}
             card={selectedCard}
           />
           <RegisterModal
+            name="register"
             isOpen={activeModal === "register"}
             onClose={closeActiveModal}
             onRegister={handleRegister}
+            openLogin={() => setActiveModal("login")}
+            isLoading={isLoading}
           />
           <LoginModal
+            name="login"
             isOpen={activeModal === "login"}
             onClose={closeActiveModal}
             onLogin={handleLogin}
             openSignUp={() => setActiveModal("register")}
+            isLoading={isLoading}
           />
           <EditProfileModal
+            name="edit-profile"
             isOpen={activeModal === "edit-profile"}
             onClose={closeActiveModal}
             onUpdate={handleUpdateUser}
-            currentUser={currentUser}
+            isLoading={isLoading}
           />
           <Footer />
         </div>

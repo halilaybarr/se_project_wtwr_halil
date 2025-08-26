@@ -1,14 +1,20 @@
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = "http://localhost:3002";
 
-function checkResponse(res) {
+export function checkResponse(res) {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject(`Error ${res.status}`);
 }
 
-export function getItems() {
-  return fetch(`${BASE_URL}/items`).then(checkResponse);
+export function getItems(token) {
+  const headers = {};
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return fetch(`${BASE_URL}/items`, {
+    headers,
+  }).then(checkResponse);
 }
 
 export function addItem(data, token) {

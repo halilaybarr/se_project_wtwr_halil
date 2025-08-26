@@ -1,10 +1,9 @@
 import "./ItemModal.css";
-import closeBtn from "../../assets/close-btn.svg";
 import { useContext } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";
+import { Modal } from "../Modal/Modal";
 
 function ItemModal({
-  activeModal,
   closeActiveModal,
   card,
   isOpen,
@@ -26,18 +25,11 @@ function ItemModal({
   };
 
   return (
-    <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
-      <div className="modal__content modal__content_type_image">
-        <button
-          onClick={closeActiveModal}
-          type="button"
-          className="modal__close"
-        >
-          <img src={closeBtn} alt="Close" />
-        </button>
-        {card && card.imageUrl && (
+    <Modal name="preview" onClose={closeActiveModal} isOpen={isOpen}>
+      <div className="modal__content_type_image">
+        {card && (card.imageUrl || card.link) && (
           <img
-            src={card.imageUrl}
+            src={card.imageUrl || card.link}
             alt={card.name || "item"}
             className="modal__image"
           />
@@ -52,7 +44,7 @@ function ItemModal({
           )}
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }
 

@@ -13,7 +13,11 @@ function ItemCard({ item, onCardLike, onCardClick, ...props }) {
 
   const isLiked =
     Array.isArray(item.likes) && currentUser
-      ? item.likes.includes(currentUser._id)
+      ? item.likes.some((like) =>
+          typeof like === "object"
+            ? like._id === currentUser._id
+            : like === currentUser._id
+        )
       : false;
 
   const handleLike = () => {
@@ -28,15 +32,17 @@ function ItemCard({ item, onCardLike, onCardClick, ...props }) {
       <img
         onClick={handleCardClick}
         className="card__image"
-        src={item.imageUrl}
+        src={item.imageUrl || item.link}
         alt={item.name}
       />
-      <button className="card__like-btn" onClick={handleLike}>
-        <img
-          src={isLiked ? likeButtonLikedIcon : likeButtonIcon}
-          alt="like button"
-        />
-      </button>
+      {currentUser && (
+        <button className="card__like-btn" onClick={handleLike}>
+          <img
+            src={isLiked ? likeButtonLikedIcon : likeButtonIcon}
+            alt="like button"
+          />
+        </button>
+      )}
     </li>
   );
 }
