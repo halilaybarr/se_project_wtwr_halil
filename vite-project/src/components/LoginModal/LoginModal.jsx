@@ -26,12 +26,12 @@ function LoginModal({ isOpen, onClose, onLogin, openSignUp, isLoading }) {
       closeActiveModal={onClose}
       onSubmit={handleSubmit}
     >
-      <label htmlFor="email" className="modal__label">
+      <label className="modal__label">
         Email
         <input
           className="modal__input"
           type="email"
-          id="email"
+          id="login-email"
           name="email"
           placeholder="Email"
           value={values.email}
@@ -39,12 +39,12 @@ function LoginModal({ isOpen, onClose, onLogin, openSignUp, isLoading }) {
           required
         />
       </label>
-      <label htmlFor="password" className="modal__label">
+      <label className="modal__label">
         Password
         <input
           className="modal__input"
           type="password"
-          id="password"
+          id="login-password"
           name="password"
           placeholder="Password"
           value={values.password}

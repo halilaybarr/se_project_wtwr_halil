@@ -34,12 +34,12 @@ function RegisterModal({ isOpen, onClose, onRegister, openLogin, isLoading }) {
       closeActiveModal={onClose}
       onSubmit={handleSubmit}
     >
-      <label htmlFor="email" className="modal__label">
+      <label className="modal__label">
         Email
         <input
           className="modal__input"
           type="email"
-          id="email"
+          id="register-email"
           name="email"
           placeholder="Email"
           value={values.email}
@@ -47,12 +47,12 @@ function RegisterModal({ isOpen, onClose, onRegister, openLogin, isLoading }) {
           required
         />
       </label>
-      <label htmlFor="password" className="modal__label">
+      <label className="modal__label">
         Password
         <input
           className="modal__input"
           type="password"
-          id="password"
+          id="register-password"
           name="password"
           placeholder="Password"
           value={values.password}
@@ -60,12 +60,12 @@ function RegisterModal({ isOpen, onClose, onRegister, openLogin, isLoading }) {
           required
         />
       </label>
-      <label htmlFor="name" className="modal__label">
+      <label className="modal__label">
         Name
         <input
           className="modal__input"
           type="text"
-          id="name"
+          id="register-name"
           name="name"
           placeholder="Name"
           value={values.name}
@@ -73,12 +73,12 @@ function RegisterModal({ isOpen, onClose, onRegister, openLogin, isLoading }) {
           required
         />
       </label>
-      <label htmlFor="avatar" className="modal__label">
+      <label className="modal__label">
         Avatar URL
         <input
           className="modal__input"
           type="url"
-          id="avatar"
+          id="register-avatar"
           name="avatar"
           placeholder="Avatar URL"
           value={values.avatar}

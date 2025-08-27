@@ -1,10 +1,6 @@
 import headerLogo from "../../assets/WTWR-logo.svg";
-
-import { useEffect } from "react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
-import userImg from "../../assets/user-img.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { useContext } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";

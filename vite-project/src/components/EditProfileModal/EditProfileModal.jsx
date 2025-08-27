@@ -18,7 +18,7 @@ function EditProfileModal({ isOpen, onClose, onUpdate, isLoading }) {
         avatar: currentUser.avatar || "",
       });
     }
-  }, [currentUser, isOpen, setValues]);
+  }, [currentUser, isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,12 +34,12 @@ function EditProfileModal({ isOpen, onClose, onUpdate, isLoading }) {
       onSubmit={handleSubmit}
       className="edit-profile_label"
     >
-      <label htmlFor="name" className="modal__label">
+      <label className="modal__label">
         Name
         <input
           className="modal__input"
           type="text"
-          id="name"
+          id="edit-profile-name"
           name="name"
           placeholder="Name"
           value={values.name}
@@ -47,12 +47,12 @@ function EditProfileModal({ isOpen, onClose, onUpdate, isLoading }) {
           required
         />
       </label>
-      <label htmlFor="avatar" className="modal__label">
+      <label className="modal__label">
         Avatar URL
         <input
           className="modal__input"
           type="url"
-          id="avatar"
+          id="edit-profile-avatar"
           name="avatar"
           placeholder="Avatar URL"
           value={values.avatar}

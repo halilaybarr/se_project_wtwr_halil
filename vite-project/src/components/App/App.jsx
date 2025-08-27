@@ -145,6 +145,7 @@ function App() {
       setClothingItems(items);
     } catch (err) {
       console.error(err);
+      throw err; // Re-throw to allow RegisterModal to handle the error
     }
   };
 
@@ -178,12 +179,10 @@ function App() {
   };
 
   const handleCardLike = ({ id, isLiked }) => {
-    console.log("handleCardLike called", id, isLiked);
     const token = localStorage.getItem("jwt");
     const likeAction = !isLiked ? addCardLike : removeCardLike;
     likeAction(id, token)
       .then((updatedCard) => {
-        console.log("Updated card:", updatedCard); // Add this
         setClothingItems((cards) =>
           cards.map((item) =>
             item._id === id
