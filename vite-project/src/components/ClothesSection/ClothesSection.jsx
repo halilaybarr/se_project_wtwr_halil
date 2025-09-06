@@ -5,7 +5,8 @@ import "./ClothesSection.css";
 
 function ClothesSection({ clothingItems, ...props }) {
   const currentUser = useContext(CurrentUserContext);
-  const userItems = currentUser
+  const isLoggedIn = !!currentUser;
+  const userItems = isLoggedIn
     ? clothingItems.filter(
         (item) =>
           item.owner &&
@@ -19,12 +20,14 @@ function ClothesSection({ clothingItems, ...props }) {
     <div className="clothes-section">
       <div className="clothes-section__header">
         <p className="clothes-section__title">Your Items</p>
-        <button
-          className="clothes-section__add-btn"
-          onClick={props.handleAddClick}
-        >
-          + Add New
-        </button>
+        {isLoggedIn && (
+          <button
+            className="clothes-section__add-btn"
+            onClick={props.handleAddClick}
+          >
+            + Add New
+          </button>
+        )}
       </div>
       <ul className="clothes-section__items">
         {userItems.map((item) => (
