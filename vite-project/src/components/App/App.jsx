@@ -230,20 +230,12 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <>
-                    <Main
-                      weatherData={weatherData}
-                      handleCardClick={handleCardClick}
-                      clothingItems={clothingItems}
-                      onCardLike={handleCardLike}
-                    />
-                    <ClothesSection
-                      clothingItems={clothingItems}
-                      onCardClick={handleCardClick}
-                      onCardLike={handleCardLike}
-                      handleAddClick={handleAddClick}
-                    />
-                  </>
+                  <Main
+                    weatherData={weatherData}
+                    handleCardClick={handleCardClick}
+                    clothingItems={clothingItems}
+                    onCardLike={handleCardLike}
+                  />
                 }
               />
               <Route
